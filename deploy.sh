@@ -22,7 +22,7 @@ kill_existing_process() {
 
 start_flask_app() {
     echo "Starting Flask app with Gunicorn..."
-    nohup gunicorn -w $WORKERS --timeout 120 -b $HOST:$PORT $APP_MODULE > $LOG_FILE 2>&1 &
+    gunicorn -w $WORKERS --timeout 120 -b $HOST:$PORT $APP_MODULE > $LOG_FILE 2>&1
 }
 
 update_code_and_requirements

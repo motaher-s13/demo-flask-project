@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance for a simple hello world Flask app
+After=network-online.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/demo-flask-project
+ExecStart=/bin/bash /home/ubuntu/demo-flask-project/deploy.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

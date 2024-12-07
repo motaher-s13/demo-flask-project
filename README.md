@@ -24,12 +24,30 @@ Unit — This section is for description about the project and some dependencies
 
 Service — To specify user/group we want to run this service after. Also some information about the executables and the commands.
 
-Install — tells systemd at which moment during boot process this service should start.
+Install — tells systemd at which moment during boot process this service should start. it actually links the service with a target(collection of other services/units.)
 
-With that said, copy the unit file in the /etc/systemd/system directory
+With that said, make a service file in systemd directory
 	
 ```bash
-sudo cp demo-flask-project.service /etc/systemd/system/
+sudo nano /etc/systemd/system/demo-flask-project.service
+```
+```bash
+[Unit]
+Description=Gunicorn instance for a simple hello world Flask app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/demo-flask-project
+ExecStart=/home/ubuntu/demo-flask-project/venv/bin/gunicorn \
+          -w 4 --timeout 120 -b 0.0.0.0:8000 app:app
+Restart=on-failure
+RestartSec=5
+
+
+[Install]
+WantedBy=multi-user.target
 ```
 Then enable the service:
 ```bash
@@ -66,7 +84,7 @@ Manually kill the Gunicorn process associated with your Flask app:
 ```bash
 sudo pkill -f "gunicorn"
 ```
-This simulates the app crashing unexpectedly. Since Restart=always is set, systemd should automatically restart the service.
+This simulates the app crashing unexpectedly. Since Restart=on-failure is set, systemd should automatically restart the service.
 
 Monitor the Restart. Check the service status to verify that it restarted. 
 

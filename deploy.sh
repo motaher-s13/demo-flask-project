@@ -9,9 +9,15 @@ PORT=8000
 LOG_FILE="app.log"
 
 update_code_and_requirements() {
-  source /home/ubuntu/demo-flask-project/venv/bin/activate
 	git pull
+
+  source /home/ubuntu/demo-flask-project/venv/bin/activate
+
+  pip install --upgrade pip
 	pip install -r requirements.txt
+
+
+  deactivate
 }
 
 kill_existing_process() {

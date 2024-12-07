@@ -62,7 +62,7 @@ curl localhost:8000
 
 Cross check if the symbolic link with the target been created
 ```bash
-ls -l /etc/systemd/system/multi-user.target.wants/ | grep demo-flask.service
+ls -l /etc/systemd/system/multi-user.target.wants/ | grep demo-flask-project.service
 ```
 
 check the service related logs to ensure if it's running correctly
@@ -82,7 +82,7 @@ sudo systemctl status demo-flask-project.service
 
 Manually kill the Gunicorn process associated with your Flask app:
 ```bash
-sudo pkill -f "gunicorn"
+sudo pkill -SIGABRT gunicorn
 ```
 This simulates the app crashing unexpectedly. Since Restart=on-failure is set, systemd should automatically restart the service.
 
@@ -99,7 +99,7 @@ sudo journalctl -u demo-flask-project.service -f
 
 
 
-**Remove the service**
+**How to Remove the service**
 
 first stop and detach the service
 ```bash
